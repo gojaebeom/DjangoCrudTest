@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends '../base.html' %}
+{% block content %}
     <h1>게시물 생성</h1>
     <a href="/posts">게시물 목록</a>
     <a href="/posts/create">게시물 생성</a>
@@ -13,9 +7,8 @@
     <form action="/posts/create" method="post">
         {% csrf_token %}
         <input name="title" placeholder="제목을 입력하세요"><br>
-        <input name="writer" placeholder="작성자를 입력하세요"><br>
+        <input type="hidden" name="user_id" value="{{ user.id }}">
         <textarea name="content" id="" cols="30" rows="10" placeholder="내용을 입력하세요"></textarea><br>
         <button type="submit">생성</button>
     </form>
-</body>
-</html>
+{% endblock %}

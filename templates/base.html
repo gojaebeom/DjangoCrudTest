@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'include/head.html' %}
+<body>
+    <div class="header">
+        <a href="/" class="logo">Logo</a>
+
+        {% if user.is_authenticated %}
+            <div>
+                <a href="/posts/create">글 쓰기</a>
+                <a href="/users/{{ user.id }}" class="logged-button">{{ user.username }}</a>
+                <a href="/logout" class="logged-button">로그아웃</a>
+            </div>
+        {% else %}
+            <a href="/login" class="login-button">로그인</a>
+        {% endif %}
+    </div>
+    <!-- main -->
+    <div class="main">
+        <!-- left-menu -->
+        <div class="left-menu">
+            <a href="/posts">탐색</a>
+            <a href="/users">유저</a>
+        </div>
+        <!-- content -->
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- right-menu -->
+        <div class="right-menu">
+            <a href="#">MENU1</a>
+            <a href="#">MENU2</a>
+        </div>
+    </div>
+</body>
+</html>

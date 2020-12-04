@@ -1,0 +1,9 @@
+{% extends '../base.html' %}
+{% block content %}
+    <h1>유저 상세정보</h1>
+    <p>유저이름   : {{ user_detail.username }} </p>
+    <p>이메일 : {{ user_detail.email }} </p>
+    {% if user.is_authenticated and user.id == user_detail.id %}
+        <a href="/users/{{ user_detail.id }}/edit">정보 수정</a>
+    {% endif %}
+{% endblock %}

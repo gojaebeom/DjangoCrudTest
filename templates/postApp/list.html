@@ -1,7 +1,6 @@
 {% extends '../base.html' %}
 {% block content %}
     <h1>게시물 목록</h1>
-    <hr>
     {% for post in posts %}
         <p>{{ post.id }}번 게시물 : </p>
         <a href="/posts/{{ post.id }}">{{ post.title }}</a>

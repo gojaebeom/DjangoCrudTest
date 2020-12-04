@@ -29,12 +29,15 @@ def post_detail(request, id):  # 게시물 상세보기
 
 
 def post_create(request):  # 게시물 생성 페이지/ 생성하기
+    if not request.user.is_authenticated:
+        return render(request, 'home.html', context={'message': '비정상적인 접근입니다'})
+
     if request.POST:
         # 만약 요청이 POST로 넘어왔다면, 넘어온 데이터를 사용하기 편하게 변수에 할당
         # 한번만 사용하는 경우 직접 ex) post.title = request.POST.get('title') 처럼 바로 사용해도 되지만
         # 나중에 사용할 일이 많아 질 수 있기 때문에 변수에 넣어서 사용하는 것이 좋습니다.
         title = request.POST.get('title')
-        writer = request.POST.get('writer')
+        user_id = request.POST.get('user_id')
         content = request.POST.get('content')
 
         # 만들었던 Post 모델을 변수에 할당하고
@@ -42,7 +45,7 @@ def post_create(request):  # 게시물 생성 페이지/ 생성하기
         # 그리고 마지막 save() 메서드를 호출하여 실제 DB에 저장하는 작업을 진행합니다
         post = Post()
         post.title = title
-        post.writer = writer
+        post.user_id = user_id
         post.content = content
         post.save()
         # 그리고 /posts url 로 redirect 시킵니다. /posts 요청은 post_list와 연결되어 있으므로 게시물 목록화면으로 돌아가게 됩니다.
@@ -54,12 +57,15 @@ def post_create(request):  # 게시물 생성 페이지/ 생성하기
 
 
 def post_update(request, id):  # 게시물 수정 페이지/ 수정하기
+    # 만약 글쓴이와 로그인한 유저가 다르다면 수정페이지 접근 불가
+    post = Post.objects.get(id=id)
+    if request.user.id != post.user_id:
+        return render(request, 'home.html', context={'message': '비정상적인 접근입니다'})
 
     if request.POST:
         # post_create 함수와 비슷합니다. 하지만 다른 부분이 있죠.
         # 요청이 POST 로 넘어온다면 변수에 할당합니다.
         title = request.POST.get('title')
-        writer = request.POST.get('writer')
         content = request.POST.get('content')
 
         # 이 부분은 생성하는 부분과는 다릅니다. 새로운 객체를 만들지 않고,
@@ -69,7 +75,6 @@ def post_update(request, id):  # 게시물 수정 페이지/ 수정하기
         # 그리고 이번엔 게시물 목록이아닌, 상세보기 페이지로 넘깁니다 (이부분은 설계의 차이입니다)
         post = Post.objects.get(id=id)
         post.title = title
-        post.writer = writer
         post.content = content
         post.save()
         return redirect('/posts/'+str(id))
@@ -89,9 +94,10 @@ def post_delete(request, id):  # 게시물 삭제
     # 물론 이렇게 구현하게 되면 다른사람이 무작위로 게시물을 삭제하는 등 보안에 취약하게 되지만
     # 예제상 그냥 진행하겠습니다.
 
-    # GET으로 넘어온 요청의 id 값을 통해 해당하는 id값의 post를 삭제합니다
     post = Post.objects.get(id=id)
-    post.delete()
+    if request.user.id != post.user_id:
+        return render(request, 'home.html', context={'message': '비정상적인 접근입니다'})
 
+    post.delete()
     # 그리고 게시물 목록으로 redirect 시킵니다.
     return redirect('/posts')

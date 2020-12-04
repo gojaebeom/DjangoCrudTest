@@ -9,6 +9,9 @@ from signApp.forms import LoginForm
 
 # GET : 로그인 페이지 / POST : 로그인 요청
 def login(request):
+    if request.user.is_authenticated:
+        return render(request, 'home.html', context={'message': '비정상적인 접근입니다'})
+
     # POST : 로그인 요청 처리
     if request.POST:
         # login.html에서 넘어온 username과 password를 각 변수에 저장한다.
@@ -39,6 +42,9 @@ def logout(request):
 
 # GET : 회원가입 페이지 / POST : 회원가입 요청
 def join(request):
+    if request.user.is_authenticated:
+        return render(request, 'home.html', context={'message': '비정상적인 접근입니다'})
+
     # POST : if문 내의 작업을 실행
     if request.POST:
         # 해당 User 모델은 장고에서 기본으로 제공해준다 ..

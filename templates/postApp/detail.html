@@ -5,8 +5,10 @@
     <a href="/posts/create">게시물 생성</a>
     <hr>
     <p>제목   : {{ post.title }} </p>
-    <p>작성자 : {{ post.writer }} </p>
+    <p>작성자 : {{ post.user.username }} </p>
     <p>내용   : {{ post.content }}</p>
-    <a href="/posts/{{ post.id }}/edit">수정하기</a>
-    <a href="/posts/{{ post.id }}/delete">삭제하기</a>
+    {% if user.is_authenticated and user.id == post.user_id %}
+        <a href="/posts/{{ post.id }}/edit">수정하기</a>
+        <a href="/posts/{{ post.id }}/delete">삭제하기</a>
+    {% endif %}
 {% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # 생성한 앱 등록
     'postApp',
     'signApp',
+    'userApp.apps.UserappConfig',
     # 소셜로그인 관련 모듈,
     'django.contrib.sites',
     'allauth',

@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% if message %}
+        <script>
+            alert('{{ message }}');
+        </script>
+    {% endif %}
     <h1>home</h1>
 {% endblock %}

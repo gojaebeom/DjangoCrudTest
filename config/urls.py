@@ -17,8 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
 
+from config import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', include('postApp.urls')),  # 생성한 postApp 폴더 내의 urls.py를 참조
+    path('account/', include('allauth.urls')),
+    path('', views.home),
     path('', include('signApp.urls')),  # signApp의 url.py를 참조
 ]

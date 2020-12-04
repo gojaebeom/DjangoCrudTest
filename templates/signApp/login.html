@@ -1,0 +1,17 @@
+{% extends '../base.html' %}
+{% load socialaccount %}
+{% providers_media_js %}
+{% block content %}
+    <form action="/login" method="post">
+        {% csrf_token %}
+        <a href="{% provider_login_url 'google' %}">구글 로그인</a><br>
+        <a href="{% provider_login_url 'naver' %}">네이버 로그인</a><br>
+        <a href="{% provider_login_url 'kakao' %}">카카오 로그인</a>
+        <hr/>
+        <input type="text" name="username" placeholder="아이디를 입력하세요"><br>
+        <input type="password" name="password" placeholder="비밀번호를 입력하세요"><br>
+        <button type="submit">생성</button>
+        <hr/>
+        <a href="/join">아직 회원가입을 하지 않으셨나요?</a>
+    </form>
+{% endblock %}

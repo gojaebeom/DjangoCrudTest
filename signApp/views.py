@@ -1,4 +1,3 @@
-import bcrypt
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -31,6 +30,11 @@ def login(request):
 
     # GET : 로그인 페이지 응답
     return render(request, 'signApp/login.html')
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
 
 
 # GET : 회원가입 페이지 / POST : 회원가입 요청

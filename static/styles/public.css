@@ -4,7 +4,7 @@ a{text-decoration: none;}
 body{margin:0px;padding:0px;}
 
 /* header */
-.header{width:100%;height:70px;border:1px dotted red;position: fixed;left:0;top:0;
+.header{width:100%;height:70px;border-bottom:1px dotted black;position: fixed;left:0;top:0;
 display:flex;justify-content:space-between;align-items:center;}
 .header .logo{margin-left:12px;}
 .header .login-button{margin-right: 12px;}

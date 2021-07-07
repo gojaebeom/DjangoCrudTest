@@ -1,0 +1,63 @@
+python이 설치되었다는 가정하에 진행
+github에 올라와있는 파일들은 참고용으로만 이용
+직접 만들어 보는것이 목표
+
+가상환경 , django 프로젝트 설정 및 생성
+django project를 진행하려면 django가 설치되어 있어야 함
+하지만 기본적으로 **python**으로 개발을 할 땐 가상환경을 만들어놓고 프로젝트를 진행
+가상환경이 필요한 이유는 [https://windybay.net/post/13] 에서 참고하면 좋다.
+
+virtualenv 다운로드
+가상환경을 생성하기 위해 여러 방법이 있지만 이번 예제에서는 'virtualenv' 라는 모듈을 다운 받아 사용
+```shell script
+pip install virtualenv
+```
+
+가상환경 파일은 프로젝트 밖, 또는 안에서 포함하는 방법 모두 상관이 없음
+하지만 본인이 찾아본 예제들은 대부분 프로젝트의 내부에 venv 폴더를 두었기 때문에 따라감
+
+ django 프로젝트 폴더 생성
+장고 프로젝트 폴더를 하나 생성
+이름은 `django-crud` 로 진행.
+
+
+그리고 생성한 폴더 내부로 들어와 
+../django-crud > 위치에서 명령창을 통해 다운받았던 가상환경 모듈을 사용하여 가상환경 파일을 만들어주기
+
+- 가상환경 생성 명령어
+virtualenv venv
+
+- 가상환경 실행 명령어
+# 윈도우
+venv\Scripts\activate.bat
+
+# 맥 
+source venv/Scripts/activate
+
+명령창 입력줄 옆에 `(venv)` 표시가 뜬다면 가상환경을 실행한 상태라는 뜻
+
+
+이제 가상환경 내부에서 장고를 깔아주면 된다.
+- 장고 설치 명령어
+pip install django
+
+
+- 장고에서 기본이되는 프로젝트 파일 생성하는 명령어
+django-admin startproject [프로젝트명]
+
+여기서 manage.py 위치를 설정할 수 있는데 아래와 같은 방식을 사용하면 프로젝트는 프로젝트대로 생기고 manage.py 위치는 해당 위치에 생김
+우리 프로젝트는 django-crud폴더 내부가 최상위 경로이기때문에 아래 방식을 사용해서 설치
+django-admin startproject [프로젝트명] .
+
+그럼 django-crud/ 경로에 manage.py가 생긴것을 볼 수 있다. 
+이 파일을 가지고 여러 명령어를 사용할 수 있는데 이번 프로젝트에서 사용되는 것은 다음과 같다.
+
+manage.py 명령어
+
+python manage.py runserver            : 서버 실행시킴
+python manage.py startapp [이름]      : 프로젝트 내에 새로운 앱(기능)을 생성
+python manage.py makemigractions      : DB 생성
+python manage.py migrate              : 데이터베이스에 생성한 모델 등록
+python manage.py createsuperuser      : 관리자 계정 생성
+
+

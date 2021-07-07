@@ -1,0 +1,61 @@
+django 개발 관련 tip
+
+#웹 서버 실행 
+python manage.py runserver
+
+#프로젝트에 기능별로 앱을 만들 수 있는데 이때 앱을 생성하는 명령어
+python manage.py startapp [앱 이름]
+(앱 이름은 - 사용 불가, 특정 키워드 사용불가)
+
+#mysqlclient 패키지 설치
+pip install mysqlclient
+설치시 오류가 나는 경우
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#mysql-python <- 사이트 접속 후 control + f 로 mysqlclient 검색, 자신의 윈도우에 맞는 whl 파일 설치 -> 아무 경로로 옴기고 
+프로젝트에서 pip install [경로명]+[파일 이름.whl]
+pip install C:\mysqlclient-1.4.6-cp39-cp39-win_amd64.whl
+그 뒤 다시 mysqlclient 설치
+
+#데이터베이스 entity 생성
+사용할 앱에서 entity class 생성 , 설정 이후
+python manage.py makemigrations
+위의 경우는 선언한 entitiy를 등록만 하는 과정
+python manage.py migrate
+이 명령어 까지 입력해야 실제 데이터 베이스에 테이블 생성
+
+#관리자 계정 생성
+장고에서는 프로젝트 실행시 /admin 주소를 통해 관리자 모드로 접속할 수 있다. 관리자 화면은 계정을 생성해야 접속할 수 있는데 명령어는 다음과 같다. (데이터베이스를 마이그레이트하지 않으면 생성 불가)
+python manage.py createsuperuser
+관리자 화면에서 직접 만든 모델들을 관리하고 싶다면, 모델을 만든 앱의 admin.py에 등록해주어야 한다.
+----------------- example ---------------------
+# Register your models here.
+from googleloginapp.models import Blog
+
+admin.site.register(Blog)
+-------------------------------------------------
+
+# 모듈을 하나로 관리하기 위해 requirements.txt 사용하기
+install 된 모듈들을 requirements.txt 파일안에 모두 기억한다.
+pip freeze >> requirements.txt
+다운로드 받을 땐
+pip install -r requirements.txt
+
+# 우분투에서 사용할 라이브러리
+uWSGI==2.0.19.1
+uwsgi --http :8000 --home /home/ubuntu/Journey-Test-App/myvenv/ --chdir /home/ubuntu/Journey-Test-App/ -w JourneyApp.wsgi
+
+//데몬으로 구니콘  실행 (데몬 리로드되어도 안꺼짐, 대신 서버가 종료되면 꺼짐)
+gunicorn --bind unix:/home/ubuntu/run/gunicorn.sock config.wsgi:application --daemon --reload
+//데몬으로 올렸던 구니콘 삭제
+pkill -f gunicorn
+
+sudo /home/ubuntu/Journey-Test-App/myvenv/bin/uwsgi -i /home/ubuntu/Journey-Test-App/.config/uwsgi/mysite.ini
+
+
+django 개발 중 격은 오류 정리
+no such table: [ table .. name ]
+원인 : 사용하려는 모델이 테이블이 생성이 안되었을 때
+model.py에서 모델을 만들어 놓고 테이블을 생성하지 하지 않고
+사용하려고 할 경우
+해결 : 프로젝트를 종료시키고 테이블을 생성 시키고 다시 실행하면 된다.
+python manage.py makemigrations
+python manage.py migrate
